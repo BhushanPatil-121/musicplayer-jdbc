@@ -25,7 +25,12 @@ public class MusicPlayerMain {
 		try {
 			System.out.println("\nSelect Options");
 			System.out.println(
-					"|-------------------------- \n|1.Play Song \n|2.Add/Remove Song \n|3.Update Song \n|4.Exit\n|-------------------------- ");
+					"|-----------------|"
+				+ "\n|1.Play Song      |"
+				+ "\n|2.Add/Remove Song|"
+				+ "\n|3.Update Song    |"
+				+ "\n|4.Exit           |"
+				+ "\n|-----------------|");
 			choose = inputScanner.nextInt();
 		} catch (InputMismatchException e) {
 			System.out.println("Please Enter Number");
@@ -111,7 +116,7 @@ public class MusicPlayerMain {
 			while (stop)
 				try {
 			
-						System.out.println("choose options ");
+						System.out.println("\nchoose options ");
 						System.out.println("1.Update Song Name\n2.Update Singer Name\n3.Update Movie Name\n4.Update Song Duration\n5.Update Whole Song\n6.Go Back\n");
 						choose3 = inputScanner.nextInt();
 						switch (choose3) {

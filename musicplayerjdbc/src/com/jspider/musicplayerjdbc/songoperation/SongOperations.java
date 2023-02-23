@@ -52,7 +52,7 @@ public class SongOperations {
 			e.printStackTrace();
 		}
 	}
-
+	// Add song
 	public static void addSong() {
 		try {
 			String songnamString;
@@ -65,7 +65,7 @@ public class SongOperations {
 				Songs songs = new Songs();
 				System.out.println("\nAdding Song.....");
 				boolean stop = true;
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name('0' to Stop):- ");
 				while (stop) {
 					songnamString = scanner.nextLine().toLowerCase();
 					songs.setSongName(songnamString);
@@ -127,7 +127,7 @@ public class SongOperations {
 			query = "delete from musicplayer.songs where songname in (?)";
 
 			preparedStatement = connection.prepareStatement(query);
-			System.out.print("Enter Song Name('0' to go back):- ");
+			System.out.print("Enter Song Name('0' to Stop):- ");
 			String nameString = scanner.nextLine().toLowerCase();
 			preparedStatement.setString(1, nameString);
 			if (nameString.equals("0")) {
@@ -153,7 +153,7 @@ public class SongOperations {
 			openConnection();
 			query = "truncate  musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
-			System.out.print("Enter 1 To Remove All songs('0' to go back):- ");
+			System.out.print("Removing All songs \nEnter 1 To Confirm('0' to Cancel):- ");
 			int input = scanner.nextInt();
 			if (input == 0) {
 				System.out.println("Going Back..");
@@ -178,17 +178,16 @@ public class SongOperations {
 			query = "select * from musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
-			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
+			String songNameString=" ";
+			int i=1;
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
-				songs.setSingerName(resultSet.getString(2));
-				songs.setMovieName(resultSet.getNString(3));
-				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
+				songNameString=resultSet.getString(1);
+				System.out.println("|------------------------------------------------------|\n| "+i+". "+songNameString);
+				System.out.println("|------------------------------------------------------|");
+				i++;
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to play");
 				return;
 			}
@@ -205,7 +204,7 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				System.out.println("\nPlaying Song....");
-				System.out.println(resultSet.getString(1));
+				System.out.println("[ "+resultSet.getString(1)+" ]\n\nSong Data:-");
 				songs1.setSongName(resultSet.getString(1));
 				songs1.setSingerName(resultSet.getString(2));
 				songs1.setMovieName(resultSet.getNString(3));
@@ -235,7 +234,7 @@ public class SongOperations {
 			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
-				System.out.println("Playing " + songs.getSongName() + " song....");
+				System.out.println("Playing..\n[ " + resultSet.getString(1) + " ]\nSong Data:-");
 				songs.setSingerName(resultSet.getString(2));
 				songs.setMovieName(resultSet.getNString(3));
 				songs.setSongDuration(resultSet.getDouble(4));
@@ -255,22 +254,35 @@ public class SongOperations {
 
 	public static void playRandomSong() {
 		try {
+			int listLength=0;
 			openConnection();
-			query = "select * from musicplayer.songs order by songname";
+			query = "select * from musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
-				System.out.println("Playing " + songs.getSongName() + " song....");
 				songs.setSingerName(resultSet.getString(2));
 				songs.setMovieName(resultSet.getNString(3));
 				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
-				break;
+				listLength++;
 			}
-			if (songs.getSingerName() == null) {
+			int num =(int) (Math.random()*listLength);
+			query = "select * from musicplayer.songs limit ? ,1 ";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, num);
+			resultSet = preparedStatement.executeQuery();
+			Songs songs1 = new Songs();
+			while (resultSet.next()) {
+				songs1.setSongName(resultSet.getString(1));
+				System.out.println("Playing..\n[ " + resultSet.getString(1) + " ]\nSong Data:-");
+				songs1.setSingerName(resultSet.getString(2));
+				songs1.setMovieName(resultSet.getNString(3));
+				songs1.setSongDuration(resultSet.getDouble(4));
+				System.out.println(songs1);
+				System.out.println();
+			}
+			if (songs1.getSingerName() == null) {
 				System.out.println("No Song Present In list add song to play");
 			}
 		} catch (Exception e) {
