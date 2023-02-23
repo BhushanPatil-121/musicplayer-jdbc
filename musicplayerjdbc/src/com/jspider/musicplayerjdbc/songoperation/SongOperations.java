@@ -64,7 +64,7 @@ public class SongOperations {
 				query = "insert into musicplayer.songs values (?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				Songs songs = new Songs();
-				System.out.println("Adding Song.....");
+				System.out.println("\nAdding Song.....");
 				boolean stop = true;
 				System.out.print("Enter Song Name('0' to go back):- ");
 				while (stop) {
