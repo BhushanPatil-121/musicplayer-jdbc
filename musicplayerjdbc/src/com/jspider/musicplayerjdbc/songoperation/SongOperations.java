@@ -113,6 +113,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -131,7 +132,6 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			System.out.print("Enter Song Name('0' to go back):- ");
 			String nameString = scanner.nextLine().toLowerCase();
-			nameString = scanner.nextLine().toLowerCase();
 			preparedStatement.setString(1, nameString);
 			if (nameString.equals("0")) {
 				System.out.println("Going Back..");
@@ -183,6 +183,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -237,6 +238,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				System.out.println("Playing "+songs.getSongName()+" song....");
@@ -292,6 +294,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -364,6 +367,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -419,6 +423,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -476,6 +481,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
@@ -533,6 +539,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
+			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				songs.setSongName(resultSet.getString(1));
 				songs.setSingerName(resultSet.getString(2));
