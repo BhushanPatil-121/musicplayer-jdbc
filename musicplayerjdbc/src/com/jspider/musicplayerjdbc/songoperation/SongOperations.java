@@ -21,6 +21,7 @@ public class SongOperations {
 	private static Scanner scanner = new Scanner(System.in);
 	private static String filePath = "D:\\WEJA1\\musicplayerjdbc\\resources\\db_info.properties";
 
+	//Open connection common for all operations
 	private static void openConnection() {
 		try {
 			fileReader = new FileReader(filePath);
@@ -34,6 +35,8 @@ public class SongOperations {
 
 	}
 
+	
+	//close connection common for operations
 	private static void closeConnection() {
 		try {
 			if (connection != null) {
