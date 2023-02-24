@@ -52,7 +52,7 @@ public class Songs {
 
 		@Override
 		public String toString() {
-			return "Song Name: " + this.songName + "\nSong Duration: " + this.songDuration + "\nSinger Name: "
+			return "Song Name: " + this.songName + "\nSong Duration: " + this.songDuration + " Seconds\nSinger Name: "
 					+ this.singerName + "\nMovie Name: " + this.movieName;
 		}
 

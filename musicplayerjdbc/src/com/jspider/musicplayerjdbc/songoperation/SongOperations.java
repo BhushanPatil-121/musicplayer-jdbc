@@ -21,7 +21,7 @@ public class SongOperations {
 	private static Scanner scanner = new Scanner(System.in);
 	private static String filePath = "D:\\WEJA1\\musicplayerjdbc\\resources\\db_info.properties";
 
-	//Open connection common for all operations
+	// Open connection common for all operations
 	private static void openConnection() {
 		try {
 			fileReader = new FileReader(filePath);
@@ -35,8 +35,7 @@ public class SongOperations {
 
 	}
 
-	
-	//close connection common for operations
+	// close connection common for operations
 	private static void closeConnection() {
 		try {
 			if (connection != null) {
@@ -55,6 +54,7 @@ public class SongOperations {
 			e.printStackTrace();
 		}
 	}
+
 	// Add song
 	public static void addSong() {
 		try {
@@ -70,7 +70,7 @@ public class SongOperations {
 				boolean stop = true;
 				System.out.print("Enter Song Name('0' to Stop):- ");
 				while (stop) {
-					songnamString = scanner.nextLine().toLowerCase();
+					songnamString = scanner.nextLine().toLowerCase().trim();
 					songs.setSongName(songnamString);
 					if (songs.getSongName().equals("0")) {
 						if (result > 0) {
@@ -182,11 +182,11 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			System.out.println("\nSong List...\n");
-			String songNameString=" ";
-			int i=1;
+			String songNameString = " ";
+			int i = 1;
 			while (resultSet.next()) {
-				songNameString=resultSet.getString(1);
-				System.out.println("|------------------------------------------------------|\n| "+i+". "+songNameString);
+				songNameString = resultSet.getString(1);
+				System.out.println(" " + i + ". " + songNameString);
 				System.out.println("|------------------------------------------------------|");
 				i++;
 			}
@@ -194,10 +194,10 @@ public class SongOperations {
 				System.out.println("No Song Present In list add song to play");
 				return;
 			}
-			
+
 			System.out.print("Enter Song Name('0' to go back):- ");
 			String nameString = scanner.nextLine().toLowerCase();
-			query = "select * from musicplayer.songs where songname like '%"+nameString+"%' ";
+			query = "select * from musicplayer.songs where songname like '%" + nameString + "%' ";
 			preparedStatement = connection.prepareStatement(query);
 			if (nameString.equals("0")) {
 				System.out.println("Going Back..");
@@ -207,7 +207,7 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				System.out.println("\nPlaying Song....");
-				System.out.println("[ "+resultSet.getString(1)+" ]\n\nSong Data:-");
+				System.out.println("[ " + resultSet.getString(1) + " ]\n\nSong Data:-");
 				songs1.setSongName(resultSet.getString(1));
 				songs1.setSingerName(resultSet.getString(2));
 				songs1.setMovieName(resultSet.getNString(3));
@@ -215,7 +215,7 @@ public class SongOperations {
 				System.out.println(songs1);
 				break;
 			}
-			if (songs1.getSongName()==null) {
+			if (songs1.getSongName() == null) {
 				System.out.println("Song Not Found");
 			}
 		} catch (Exception e) {
@@ -257,7 +257,7 @@ public class SongOperations {
 
 	public static void playRandomSong() {
 		try {
-			int listLength=0;
+			int listLength = 0;
 			openConnection();
 			query = "select * from musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
@@ -270,7 +270,7 @@ public class SongOperations {
 				songs.setSongDuration(resultSet.getDouble(4));
 				listLength++;
 			}
-			int num =(int) (Math.random()*listLength);
+			int num = (int) (Math.random() * listLength);
 			query = "select * from musicplayer.songs limit ? ,1 ";
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, num);
@@ -304,15 +304,14 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
+			int i = 1;
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
-				songs.setSingerName(resultSet.getString(2));
-				songs.setMovieName(resultSet.getNString(3));
-				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
+				songNameString = resultSet.getString(1);
+				System.out.println(" " + i + ".  " + songNameString);
+				System.out.println("|------------------------------------------------------|");
+				i++;
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to update");
 				return;
 			}
@@ -321,7 +320,7 @@ public class SongOperations {
 			System.out.println("Updating Song Name.....");
 			boolean stop = true, stop1 = true;
 			while (stop) {
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name From given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
 				songs.setSongName(songNameString);
 				if (songs.getSongName().equals("0")) {
@@ -337,7 +336,7 @@ public class SongOperations {
 			}
 			while (stop1) {
 				System.out.print("Enter New Song Name('0' to go back):- ");
-				newSongNameString = scanner.nextLine().toLowerCase();
+				newSongNameString = scanner.nextLine().toLowerCase().trim();
 				songs.setSongName(newSongNameString);
 				if (songs.getSongName().equals("0")) {
 					System.out.println("Going Back..");
@@ -375,15 +374,15 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
+			int i = 1;
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
-				songs.setSingerName(resultSet.getString(2));
-				songs.setMovieName(resultSet.getNString(3));
-				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
+				songNameString = resultSet.getString(1);
+				System.out.println(" " + i + ".  Song Name:- " + songNameString + "\n     Singer Name:- "
+						+ resultSet.getString(2));
+				System.out.println("|------------------------------------------------------|");
+				i++;
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to update");
 				return;
 			}
@@ -392,7 +391,7 @@ public class SongOperations {
 			System.out.println("Updating Singer Name.....");
 			boolean stop = true;
 			while (stop) {
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name from given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
 				songs.setSongName(songNameString);
 				if (songs.getSongName().equals("0")) {
@@ -432,15 +431,15 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
+			int i = 1;
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
-				songs.setSingerName(resultSet.getString(2));
-				songs.setMovieName(resultSet.getNString(3));
-				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
+				songNameString = resultSet.getString(1);
+				System.out.println(
+						" " + i + ".  Song Name:- " + songNameString + "\n     Movie Name:- " + resultSet.getString(3));
+				System.out.println("|------------------------------------------------------|");
+				i++;
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to update");
 				return;
 			}
@@ -449,7 +448,7 @@ public class SongOperations {
 			System.out.println("Updating Movie Name.....");
 			boolean stop = true;
 			while (stop) {
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name from given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
 				songs.setSongName(songNameString);
 				if (songs.getSongName().equals("0")) {
@@ -489,15 +488,15 @@ public class SongOperations {
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
+			int i = 1;
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
-				songs.setSingerName(resultSet.getString(2));
-				songs.setMovieName(resultSet.getNString(3));
-				songs.setSongDuration(resultSet.getDouble(4));
-				System.out.println(songs);
-				System.out.println();
+				songNameString = resultSet.getString(1);
+				System.out.println(" " + i + ".  Song Name:- " + songNameString + "\n     Song Duration:- "
+						+ resultSet.getString(4));
+				System.out.println("|------------------------------------------------------|");
+				i++;
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to update");
 				return;
 			}
@@ -506,7 +505,7 @@ public class SongOperations {
 			System.out.println("Updating Movie Name.....");
 			boolean stop = true;
 			while (stop) {
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name from given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
 				songs.setSongName(songNameString);
 				if (songs.getSongName().equals("0")) {
@@ -544,26 +543,28 @@ public class SongOperations {
 			query = "select * from musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
-			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
-				songs.setSongName(resultSet.getString(1));
+				Songs songs = new Songs();
+				songNameString=resultSet.getString(1);
+				songs.setSongName(songNameString);
 				songs.setSingerName(resultSet.getString(2));
 				songs.setMovieName(resultSet.getNString(3));
 				songs.setSongDuration(resultSet.getDouble(4));
 				System.out.println(songs);
-				System.out.println();
+				System.out.println("--------------------------------------------------------");
 			}
-			if (songs.getSingerName() == null) {
+			if (songNameString == " ") {
 				System.out.println("No Song Present In list add song to update");
 				return;
 			}
-			query = "update musicplayer.songs set songname=?, singername=?, moviename=?,songduration=? where songname = ?";
+			query = "update musicplayer.songs set songname=?, singername=?, moviename=?,songduration=? where songname =? ";
 			preparedStatement = connection.prepareStatement(query);
 			System.out.println("Updating Song.....");
 			boolean stop = true;
+			Songs songs=new Songs();
 			while (stop) {
-				System.out.print("Enter Song Name('0' to go back):- ");
+				System.out.print("Enter Song Name from given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
 				songs.setSongName(songNameString);
 				if (songs.getSongName().equals("0")) {
@@ -577,23 +578,21 @@ public class SongOperations {
 					stop = false;
 				}
 			}
-
-			preparedStatement.setString(1, songs.getSongName());
+			System.out.print("Enter New Song Name:- ");
+			String songNameString1=scanner.nextLine();
+			preparedStatement.setString(1, songNameString1);
 			System.out.print("Enter Singer Name:- ");
-			songs.setSingerName(scanner.nextLine().toLowerCase());
-			preparedStatement.setString(2, songs.getSingerName());
+			preparedStatement.setString(2, scanner.nextLine().toLowerCase());
 			System.out.print("Enter Movie Name:- ");
-			songs.setMovieName(scanner.nextLine().toLowerCase());
-			preparedStatement.setString(3, songs.getMovieName());
+			preparedStatement.setString(3, scanner.nextLine().toLowerCase());
 			System.out.print("Enter Song Duration :- ");
-			songs.setSongDuration(scanner.nextDouble());
-			preparedStatement.setDouble(4, songs.getSongDuration());
+			preparedStatement.setString(4, scanner.nextLine());
 			preparedStatement.setString(5, songNameString);
 			result = preparedStatement.executeUpdate();
 			if (result == 0) {
 				System.out.println("Song Not Found In List");
 			} else {
-				System.out.println(result + " Song Remove Sucessfully");
+				System.out.println(result + " Song Updated Sucessfully");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
