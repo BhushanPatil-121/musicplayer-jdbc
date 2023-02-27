@@ -44,7 +44,7 @@ public class MusicPlayerMain {
 				try {
 					System.out.println("choose option");
 					System.out
-							.println("1.Choose Song From Given List \n2.Play all songs \n3.Play Random \n4.Go Back\n");
+							.println("1.Choose Song From Given List \n2.Play all songs \n3.Play Random Song\n4.Go Back\n");
 					choose1 = inputScanner.nextInt();
 					stop = false;
 				} catch (InputMismatchException e) {
