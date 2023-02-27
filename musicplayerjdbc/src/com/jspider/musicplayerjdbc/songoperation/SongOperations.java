@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import com.jspider.musicplayerjdbc.songs.Songs;
+import com.jspider.musicplayerjdbc.threads.Mythread;
 
 public class SongOperations {
 	private static Connection connection;
@@ -18,7 +19,7 @@ public class SongOperations {
 	private static Properties properties;
 	private static int result;
 	private static String query;
-	private static Scanner scanner = new Scanner(System.in);
+	public static Scanner scanner = new Scanner(System.in);
 	private static String filePath = "D:\\WEJA1\\musicplayerjdbc\\resources\\db_info.properties";
 
 	// Open connection common for all operations
@@ -100,7 +101,8 @@ public class SongOperations {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("\nSong name alreay exists change song name");
 		} finally {
 			closeConnection();
 		}
@@ -230,26 +232,36 @@ public class SongOperations {
 	public static void playAllSong() {
 		try {
 			openConnection();
+			int userInput = -1;
 			query = "select * from musicplayer.songs";
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			Songs songs = new Songs();
 			System.out.println("\nSong List...\n");
-			while (resultSet.next()) {
+			Thread inputThread = new Thread(new Mythread(scanner));
+			inputThread.start();
+			while (resultSet.next() ) {
 				songs.setSongName(resultSet.getString(1));
-				System.out.println("Playing..\n[ " + resultSet.getString(1) + " ]\nSong Data:-");
+				System.out.println("\nPlaying..\n[ " + resultSet.getString(1) + " ]\nSong Data:-");
 				songs.setSingerName(resultSet.getString(2));
 				songs.setMovieName(resultSet.getNString(3));
 				songs.setSongDuration(resultSet.getDouble(4));
 				System.out.println(songs);
 				System.out.println();
-				Thread.sleep(5000);
+				System.out.print("Enter a number (0 to exit): ");
+				Thread.sleep(3500);
+				userInput = Mythread.getUserInput();
+				if (userInput == 0) {
+					break;
+				}
+				System.out.println();
 			}
+			inputThread.stop();
 			if (songs.getSingerName() == null) {
 				System.out.println("No Song Present In list add song to play");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		} finally {
 			closeConnection();
 		}
@@ -546,7 +558,7 @@ public class SongOperations {
 			System.out.println("\nSong List...\n");
 			while (resultSet.next()) {
 				Songs songs = new Songs();
-				songNameString=resultSet.getString(1);
+				songNameString = resultSet.getString(1);
 				songs.setSongName(songNameString);
 				songs.setSingerName(resultSet.getString(2));
 				songs.setMovieName(resultSet.getNString(3));
@@ -562,7 +574,7 @@ public class SongOperations {
 			preparedStatement = connection.prepareStatement(query);
 			System.out.println("Updating Song.....");
 			boolean stop = true;
-			Songs songs=new Songs();
+			Songs songs = new Songs();
 			while (stop) {
 				System.out.print("Enter Song Name from given list('0' to go back):- ");
 				songNameString = scanner.nextLine().toLowerCase();
@@ -579,7 +591,7 @@ public class SongOperations {
 				}
 			}
 			System.out.print("Enter New Song Name:- ");
-			String songNameString1=scanner.nextLine();
+			String songNameString1 = scanner.nextLine();
 			preparedStatement.setString(1, songNameString1);
 			System.out.print("Enter Singer Name:- ");
 			preparedStatement.setString(2, scanner.nextLine().toLowerCase());

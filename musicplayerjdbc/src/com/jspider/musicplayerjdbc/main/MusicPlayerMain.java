@@ -137,13 +137,12 @@ public class MusicPlayerMain {
 							SongOperations.updateSong();
 							break;
 						case 6:
-							System.out.println("Going Back.....\n\n");
+							System.out.println("Going Back.....\n");
 							stop = false;
 							break;
 
 						default:
 							System.out.println("Invalid Choice\n");
-							
 							break;
 						}
 					
